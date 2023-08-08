@@ -24,7 +24,7 @@ export async function connectUser(id){
     const token = uuid();
     try{
     await db.query('INSERT INTO sessions (userid,token) VALUES($1,$2)',[id,token]);
-    return 'connected';
+    return {status:'connected',token};
     }
     catch(err){
         return err;
