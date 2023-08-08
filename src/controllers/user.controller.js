@@ -1,6 +1,7 @@
-import { signupSchema } from '../schemas/signupSchema.js'
+import { signupSchema } from '../schemas/signupSchema.js';
 import { loginSchema } from '../schemas/loginSchema.js';
 import { connectUser, createUser, getUser } from '../repositories/user.repository.js';
+import bcrypt from "bcrypt";
 
 export async function signup(req, res) {
     const { name, cpf, email, password, phone } = req.body;
@@ -10,7 +11,7 @@ export async function signup(req, res) {
     try{
     const create = await createUser(name,cpf,email,password,phone);
     if(create === 'created'){ return res.sendStatus(201)};
-    return res.status(500).send(err);
+    return res.status(500).send(create.detail);
     }
     catch(err){
         return res.status(500).send(err);
@@ -28,7 +29,7 @@ export async function login(req, res) {
     try{
     const user = await getUser(email,password);
     if(!user){return res.status(409).send('usuário não encontrado')};
-    if(user.password != password){return res.status(409).send('Senha incorreta')}
+    if(!bcrypt.compareSync(password, user.password)){return res.status(409).send('Senha incorreta')}
     
     const connect = await connectUser(user.id);
     if(connect === 'connected'){return res.sendStatus(200)}
