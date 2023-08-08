@@ -1,6 +1,6 @@
 import { Router } from "express";
-import petRouter from "./pet.routes";
-import userRouter from "./user.routes";
+import petRouter from "./pet.routes.js";
+import userRouter from "./user.routes.js";
 
 
 const Routes = Router();
