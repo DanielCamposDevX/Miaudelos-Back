@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getCat } from "../controllers/pet.controller";
+import { getCat } from "../controllers/pet.controller.js";
 
 const petRouter = Router();
 
