@@ -14,7 +14,7 @@ export async function createUser(name,cpf,email,password,phone){
 }
 
 
-export async function getUser(email,password){
+export async function getUser(email){
     const user = await db.query('SELECT * FROM users WHERE email = $1',[email])
     return user.rows[0];
 }
