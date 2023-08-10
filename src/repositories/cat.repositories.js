@@ -24,7 +24,7 @@ export async function ValidateToken(token){
 
 export async function uniqueCat(id){
     const query = `
-    SELECT cats.*, breed.name AS breed, users.name AS username
+    SELECT cats.*, breed.name AS breed, users.name AS username, users.phone AS contato
     FROM cats
     JOIN breed ON cats.breedid = breed.id
     JOIN users ON cats.userid = users.id
