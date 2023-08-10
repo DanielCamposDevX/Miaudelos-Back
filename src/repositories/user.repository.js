@@ -15,8 +15,13 @@ export async function createUser(name,cpf,email,password,phone){
 
 
 export async function getUser(email){
+    try{
     const user = await db.query('SELECT * FROM users WHERE email = $1',[email])
     return user.rows[0];
+    }
+    catch(err){
+        return {err};
+    }
 }
 
 
@@ -27,6 +32,17 @@ export async function connectUser(id){
     return {status:'connected',token};
     }
     catch(err){
-        return err;
+        return {err};
+    }
+}
+
+export async function Loged(id){
+    console.log(1)
+    try{
+    const exists = await db.query('SELECT token FROM sessions WHERE userid=$1',[id]);
+    return {status:'connected',exist:exists.rows[0]};
+    }
+    catch(err){
+        return err
     }
 }

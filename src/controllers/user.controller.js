@@ -1,6 +1,6 @@
 import { signupSchema } from '../schemas/signupSchema.js';
 import { loginSchema } from '../schemas/loginSchema.js';
-import { connectUser, createUser, getUser } from '../repositories/user.repository.js';
+import { connectUser, createUser, getUser,Loged } from '../repositories/user.repository.js';
 import bcrypt from "bcrypt";
 
 export async function signup(req, res) {
@@ -28,14 +28,20 @@ export async function login(req, res) {
 
     try{
     const user = await getUser(email,password);
-    if(!user){return res.status(409).send('usuário não encontrado')};
+    if(!user){return res.status(404).send('usuário não encontrado')};
+    if(user.err){return res.status(500).send(user.err)}
     if(!bcrypt.compareSync(password, user.password)){return res.status(409).send('Senha incorreta')}
-    
+
+    const exists = await Loged(user.id);
+    if(exists.status == 'connected'){if(exists.exist){return res.status(200).send(exists.exist.token)}}
+    if(exists.err){return res.status(500).send(exists.err)}
+
+
     const connect = await connectUser(user.id);
     if(connect.status === 'connected'){return res.status(200).send(connect.token)}
-        return res.status(500).send(err);
     }
     catch(err){
         return res.status(500).send(err);
     }
+    
 }
