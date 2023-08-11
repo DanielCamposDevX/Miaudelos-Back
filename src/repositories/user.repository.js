@@ -45,3 +45,23 @@ export async function Loged(id){
         return err
     }
 }
+
+
+export async function Exists(email,cpf){
+    try{
+    const response = []
+    const emailexist = await db.query('SELECT * FROM users WHERE email = $1',[email]);
+    if(emailexist.rowCount > 0){
+        response.push('email exists');
+    }
+    const cpfexist = await db.query('SELECT * FROM users WHERE cpf = $1',[cpf]);
+    if(cpfexist.rowCount > 0){
+        response.push('cpf exists');
+    }
+    return response;
+    }
+    catch(err){
+        return {err};
+    }
+
+}

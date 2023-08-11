@@ -1,6 +1,6 @@
 import { signupSchema } from '../schemas/signupSchema.js';
 import { loginSchema } from '../schemas/loginSchema.js';
-import { connectUser, createUser, getUser,Loged } from '../repositories/user.repository.js';
+import { connectUser, createUser, Exists, getUser,Loged } from '../repositories/user.repository.js';
 import bcrypt from "bcrypt";
 
 export async function signup(req, res) {
@@ -9,6 +9,9 @@ export async function signup(req, res) {
     const validation = signupSchema.validate({ name, cpf, email, password, phone }, { abortEarly: false });
     if (validation.error) { const errors = validation.error.details.map((detail) => detail.message); return res.status(422).send(errors); }
     try{
+    const exist = await Exists(email,cpf);
+    if (exist.err){ return res.status(500).send(exist.err)};
+    if(exist.length > 0){ return res.status(409).send(exist[0]) };
     const create = await createUser(name,cpf,email,password,phone);
     if(create.err){ return res.status(500).send(create.detail);}
         return res.sendStatus(201);
