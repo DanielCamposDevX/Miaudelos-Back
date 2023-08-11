@@ -10,8 +10,8 @@ export async function signup(req, res) {
     if (validation.error) { const errors = validation.error.details.map((detail) => detail.message); return res.status(422).send(errors); }
     try{
     const create = await createUser(name,cpf,email,password,phone);
-    if(create === 'created'){ return res.sendStatus(201)};
-    return res.status(500).send(create.detail);
+    if(create.err){ return res.status(500).send(create.detail);}
+        return res.sendStatus(201);
     }
     catch(err){
         return res.status(500).send(err);

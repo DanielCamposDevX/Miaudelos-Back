@@ -6,10 +6,10 @@ export async function createUser(name,cpf,email,password,phone){
     try{
     const encrypt = bcrypt.hashSync(password,10);
     await db.query('INSERT INTO users (name,cpf,email,password,phone) VALUES($1,$2,$3,$4,$5)',[name, cpf ,email ,encrypt, phone])
-    return 'created';
+    return 0;
     }
     catch(err){
-        return err;
+        return {err};
     }
 }
 
@@ -37,7 +37,6 @@ export async function connectUser(id){
 }
 
 export async function Loged(id){
-    console.log(1)
     try{
     const exists = await db.query('SELECT token FROM sessions WHERE userid=$1',[id]);
     return {status:'connected',exist:exists.rows[0]};
