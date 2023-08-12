@@ -1,4 +1,4 @@
-import { Cats, ValidateToken, uniqueCat } from "../repositories/cat.repositories.js";
+import { Cats, ValidateToken, uniqueCat,Breed } from "../repositories/cat.repositories.js";
 
 
 export async function getCat(req, res) {
@@ -35,6 +35,21 @@ export async function catModel(req,res) {
     catch(err){
         return res.status(500).send(err);
     }
+}
 
-
+export async function getBreeds(req,res) {
+    const { id } = req.params;
+    const { authorization } = req.headers;
+    const token = authorization?.replace("Bearer ", "");
+    if(!token){return res.sendStatus(401)}
+    try{
+    const exist = await ValidateToken(token);
+    if(exist < 0){return res.sendStatus(401)};
+    const breed = await Breed(id);
+    if(breed.err){ return res.status(500).send(breed.err)}
+    return res.status(200).send(breed);
+    }
+    catch(err){
+        return res.status(500).send(err);
+    }
 }
