@@ -41,7 +41,7 @@ export async function uniqueCat(id) {
 
 export async function Breed(id) {
     try {
-        if (!id) {
+        if (id === '-1') {
             const breeds = await db.query('SELECT * FROM breed');
             return breeds.rows
         }
