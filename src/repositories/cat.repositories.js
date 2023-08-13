@@ -65,7 +65,8 @@ export async function ValidateToken2(token) {
 
 export async function CreateCat(name,image,color,breedid,description,user){
     try{
-        const create = await db.query('INSERT INTO cats (name,image,color,breedid,description,userid) VALUES($1,$2,$3,$4,$5,%6)',[name,image,color,breedid,description,user])
+        await db.query('INSERT INTO cats(name,image,color,breedid,description,userid) VALUES($1,$2,$3,$4,$5,$6)',[name,image,color,breedid,description,user])
+        return 0;
     }
     catch(err){
         return {err}
