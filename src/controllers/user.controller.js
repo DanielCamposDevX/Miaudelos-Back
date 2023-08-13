@@ -36,7 +36,7 @@ export async function login(req, res) {
     if(!bcrypt.compareSync(password, user.password)){return res.status(401).send('Senha incorreta')}
 
     const exists = await Loged(user.id);
-    if(exists.status == 'connected'){if(exists.exist){return res.status(200).send(exists.exist.token)}}
+    if(exists.status == 'connected'){if(exists.exist){return res.status(200).send({token:exists.exist.token,name: user.name})}}
     if(exists.err){return res.status(500).send(exists.err)}
 
 
