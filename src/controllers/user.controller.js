@@ -41,7 +41,7 @@ export async function login(req, res) {
 
 
     const connect = await connectUser(user.id);
-    if(connect.status === 'connected'){return res.status(200).send(connect.token)}
+    if(connect.status === 'connected'){return res.status(200).send({token:connect.token, name: user.name})}
     }
     catch(err){
         return res.status(500).send(err);
