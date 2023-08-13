@@ -52,3 +52,23 @@ export async function Breed(id) {
         return {err};
     }
 }
+
+export async function ValidateToken2(token) {
+    try{
+    const exists = await db.query('SELECT * FROM sessions WHERE token=$1', [token])
+    return exists.rows[0];
+    }
+    catch(err){
+        return {err}
+    }
+}
+
+export async function CreateCat(name,image,color,breedid,description,user){
+    try{
+        const create = await db.query('INSERT INTO cats (name,image,color,breedid,description,userid) VALUES($1,$2,$3,$4,$5,%6)',[name,image,color,breedid,description,user])
+    }
+    catch(err){
+        return {err}
+    }
+
+}
