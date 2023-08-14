@@ -48,40 +48,50 @@ export async function Breed(id) {
         const breed = await db.query('SELECT * FROM cats WHERE breedid = $1', [id])
         return breed.rows;
     }
-    catch(err){
-        return {err};
+    catch (err) {
+        return { err };
     }
 }
 
 export async function ValidateToken2(token) {
-    try{
-    const exists = await db.query('SELECT * FROM sessions WHERE token=$1', [token])
-    return exists.rows[0];
+    try {
+        const exists = await db.query('SELECT * FROM sessions WHERE token=$1', [token])
+        return exists.rows[0];
     }
-    catch(err){
-        return {err}
+    catch (err) {
+        return { err }
     }
 }
 
-export async function CreateCat(name,image,color,breedid,description,user){
-    try{
-        await db.query('INSERT INTO cats(name,image,color,breedid,description,userid) VALUES($1,$2,$3,$4,$5,$6)',[name,image,color,breedid,description,user])
+export async function CreateCat(name, image, color, breedid, description, user) {
+    try {
+        await db.query('INSERT INTO cats(name,image,color,breedid,description,userid) VALUES($1,$2,$3,$4,$5,$6)', [name, image, color, breedid, description, user])
         return 0;
     }
-    catch(err){
-        return {err}
+    catch (err) {
+        return { err }
     }
 
 }
 
 
-export async function Comments(id){
-    try{
-        const comment = await db.query('SELECT * FROM comments WHERE id=$1',[id])
+export async function Comments(id) {
+    try {
+        const comment = await db.query('SELECT * FROM comments WHERE catid=$1', [id])
         return comment.rows;
     }
-    catch(err){
-        return {err};
+    catch (err) {
+        return { err };
     }
 
+}
+
+export async function CreateComment(id, user, comment, rate) {
+    try {
+        await db.query('INSERT INTO comments (catid,userid,comment,rate) VALUES($1,$2,$3,$4)', [id, user, comment, rate])
+        return 0
+    }
+    catch(err){
+        return {err}
+    }
 }
