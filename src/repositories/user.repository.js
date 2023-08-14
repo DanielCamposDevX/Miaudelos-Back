@@ -69,8 +69,8 @@ export async function Exists(email, cpf) {
 
 export async function getUser2(id) {
     try {
-        const user = await db.query('SELECT * FROM users WHERE id = $1', [id]);
-        const cats = await db.query('SELECT name,image FROM cats WHERE userid = $1',[id]);
+        const user = await db.query('SELECT name,phone,email FROM users WHERE id = $1', [id]);
+        const cats = await db.query('SELECT name,image,id FROM cats WHERE userid = $1',[id]);
         return { user:user.rows[0] , cats:cats.rows}
     }
     catch (err) {
