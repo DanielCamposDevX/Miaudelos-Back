@@ -88,7 +88,7 @@ export async function Comments(id) {
 
 export async function CreateComment(id, user, comment, rate) {
     try {
-        await db.query('INSERT INTO comments (catid,userid,comment,rate) VALUES($1,$2,$3,$4)', [id, user, comment, rate])
+        await db.query('INSERT INTO comments (catid,userid,text,rate) VALUES($1,$2,$3,$4)', [id, user, comment, rate])
         return 0
     }
     catch(err){

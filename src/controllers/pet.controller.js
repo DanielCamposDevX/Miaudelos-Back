@@ -75,7 +75,7 @@ export async function postCat(req, res) {
 export async function getComments(req,res){
     const { id } = req.params;
     try{
-    const comments = Comments(id);
+    const comments = await Comments(id);
     if(comments.err){ return res.status(500).send(comments.err) }
     return res.status(200).send(comments);
     }
