@@ -1,4 +1,4 @@
-import { Cats, ValidateToken, ValidateToken2, uniqueCat, Breed, CreateCat } from "../repositories/cat.repositories.js";
+import { Cats, ValidateToken, ValidateToken2, uniqueCat, Breed, CreateCat, Comments } from "../repositories/cat.repositories.js";
 
 
 export async function getCat(req, res) {
@@ -69,5 +69,17 @@ export async function postCat(req, res) {
     }
     catch (err) {
         return res.status(500).send(err);
+    }
+}
+
+export async function getComments(req,res){
+    const { id } = req.params;
+    try{
+    const comments = Comments(id);
+    if(comments.err){ return res.status(500).send(comments.err) }
+    return res.status(200).send(comments);
+    }
+    catch(err){
+        return res.status(500).send(err)
     }
 }

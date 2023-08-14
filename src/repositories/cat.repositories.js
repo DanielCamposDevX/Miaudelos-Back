@@ -73,3 +73,15 @@ export async function CreateCat(name,image,color,breedid,description,user){
     }
 
 }
+
+
+export async function Comments(id){
+    try{
+        const comment = await db.query('SELECT * FROM comments WHERE id=$1',[id])
+        return comment.rows;
+    }
+    catch(err){
+        return {err};
+    }
+
+}
