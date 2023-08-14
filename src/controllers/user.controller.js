@@ -1,6 +1,6 @@
 import { signupSchema } from '../schemas/signupSchema.js';
 import { loginSchema } from '../schemas/loginSchema.js';
-import { connectUser, createUser, Exists, getUser,Loged } from '../repositories/user.repository.js';
+import { connectUser, createUser, Exists, getUser,getUser2,Loged } from '../repositories/user.repository.js';
 import bcrypt from "bcrypt";
 
 export async function signup(req, res) {
@@ -47,4 +47,16 @@ export async function login(req, res) {
         return res.status(500).send(err);
     }
     
+}
+
+export async function users(req,res) {
+    const { id } = req.params;
+    try{
+        const user = await getUser2(id);
+        res.status(200).send(user)
+    }
+    catch(err){
+        res.status(500).send(err);
+    }
+
 }
