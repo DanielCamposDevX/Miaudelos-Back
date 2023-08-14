@@ -76,8 +76,14 @@ export async function CreateCat(name, image, color, breedid, description, user) 
 
 
 export async function Comments(id) {
+    const query = `
+    SELECT comments.*, users.name AS name
+    FROM comments
+    JOIN users ON comments.userid = users.id
+    WHERE comments.catid = $1;
+    `
     try {
-        const comment = await db.query('SELECT * FROM comments WHERE catid=$1', [id])
+        const comment = await db.query(query,[id])
         return comment.rows;
     }
     catch (err) {
@@ -91,7 +97,7 @@ export async function CreateComment(id, user, comment, rate) {
         await db.query('INSERT INTO comments (catid,userid,text,rate) VALUES($1,$2,$3,$4)', [id, user, comment, rate])
         return 0
     }
-    catch(err){
-        return {err}
+    catch (err) {
+        return { err }
     }
 }
