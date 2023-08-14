@@ -1,6 +1,7 @@
 import { signupSchema } from '../schemas/signupSchema.js';
 import { loginSchema } from '../schemas/loginSchema.js';
-import { changePass, connectUser, createUser, Exists, getUser, getUser2, Loged } from '../repositories/user.repository.js';
+import { changePass, connectUser, createUser, Exists, getUser, getUser2, Loged, changeUser } from '../repositories/user.repository.js';
+import { ValidateToken } from '../repositories/cat.repositories.js';
 import bcrypt from "bcrypt";
 
 export async function signup(req, res) {
@@ -71,8 +72,8 @@ export async function editUser(req, res) {
     try {
         const exist = await ValidateToken(token);
         if (exist < 0) { return res.sendStatus(401) };
-        const change = await changeUser(email,phone,name,id);
-        if(change.err){return res.status(500).send(change.err)}
+        const change = await changeUser(email, phone, name, id);
+        if (change.err) { return res.status(500).send(change.err) }
         return res.sendStatus(204);
     }
     catch (err) {
@@ -89,8 +90,8 @@ export async function editPass(req, res) {
     try {
         const exist = await ValidateToken(token);
         if (exist < 0) { return res.sendStatus(401) };
-        const change = await changePass(password,id);
-        if(change.err){return res.status(500).send(change.err)}
+        const change = await changePass(password, id);
+        if (change.err) { return res.status(500).send(change.err) }
         return res.sendStatus(204);
     }
     catch (err) {

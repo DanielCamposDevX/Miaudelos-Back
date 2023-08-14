@@ -87,6 +87,7 @@ export async function changeUser(email,phone,name,id){
         return {err}
     }
 }
+
 export async function changePass(pass,id){
     try{
         const encrypt = bcrypt.hashSync(pass, 10);
