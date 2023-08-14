@@ -91,7 +91,7 @@ export async function changeUser(email,phone,name,id){
 export async function changePass(pass,id){
     try{
         const encrypt = bcrypt.hashSync(pass, 10);
-        await db.query('UPDATE users password = $1 WHERE id = $2',[encrypt,id])
+        await db.query('UPDATE users SET password = $1 WHERE id = $2',[encrypt,id])
         return 0
     }
     catch(err){
