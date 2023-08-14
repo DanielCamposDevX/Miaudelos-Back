@@ -36,12 +36,12 @@ export async function login(req, res) {
     if(!bcrypt.compareSync(password, user.password)){return res.status(401).send('Senha incorreta')}
 
     const exists = await Loged(user.id);
-    if(exists.status == 'connected'){if(exists.exist){return res.status(200).send({token:exists.exist.token,name: user.name})}}
+    if(exists.status == 'connected'){if(exists.exist){return res.status(200).send({token:exists.exist.token,name: user.name,userid: user.id})}}
     if(exists.err){return res.status(500).send(exists.err)}
 
 
     const connect = await connectUser(user.id);
-    if(connect.status === 'connected'){return res.status(200).send({token:connect.token, name: user.name})}
+    if(connect.status === 'connected'){return res.status(200).send({token:connect.token, name: user.name,userid: user.id})}
     }
     catch(err){
         return res.status(500).send(err);
