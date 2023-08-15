@@ -16,7 +16,13 @@ export async function createUser(name, cpf, email, password, phone) {
 
 export async function getUser(email) {
     try {
-        const user = await db.query('SELECT * FROM users WHERE email = $1', [email])
+        const query=`
+        SELECT users.*, sessions.userid AS sessionid, sessions.token AS token
+        FROM users
+        LEFT JOIN sessions ON users.id = sessions.userid
+        WHERE users.email = $1;
+        `
+        const user = await db.query(query, [email])
         return user.rows[0];
     }
     catch (err) {

@@ -35,12 +35,9 @@ export async function login(req, res) {
         if (!user) { return res.status(404).send('usuário não encontrado') };
         if (user.err) { return res.status(500).send(user.err) }
         if (!bcrypt.compareSync(password, user.password)) { return res.status(401).send('Senha incorreta') }
-
-        const exists = await Loged(user.id);
-        if (exists.status == 'connected') { if (exists.exist) { return res.status(200).send({ token: exists.exist.token, name: user.name, userid: user.id }) } }
-        if (exists.err) { return res.status(500).send(exists.err) }
-
-
+        
+        if (user.token) { { return res.status(200).send({ token: user.token, name: user.name, userid: user.id }) } };
+        
         const connect = await connectUser(user.id);
         if (connect.status === 'connected') { return res.status(200).send({ token: connect.token, name: user.name, userid: user.id }) }
     }
