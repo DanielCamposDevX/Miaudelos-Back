@@ -1,6 +1,6 @@
-import db from "../database/database.connection.js";
+import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import bcrypt from "bcrypt"
+import db from "../database/database.connection.js";
 
 export async function createUser(name, cpf, email, password, phone) {
     try {

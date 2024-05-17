@@ -1,8 +1,8 @@
-import { signupSchema } from '../schemas/signupSchema.js';
-import { loginSchema } from '../schemas/loginSchema.js';
-import { changePass, connectUser, createUser, Exists, getUser, getUser2, Loged, changeUser } from '../repositories/user.repository.js';
-import { ValidateToken } from '../repositories/cat.repositories.js';
 import bcrypt from "bcrypt";
+import { ValidateToken } from '../repositories/cat.repositories.js';
+import { Exists, changePass, changeUser, connectUser, createUser, getUser, getUser2 } from '../repositories/user.repository.js';
+import { loginSchema } from '../schemas/loginSchema.js';
+import { signupSchema } from '../schemas/signupSchema.js';
 
 export async function signup(req, res) {
     const { name, cpf, email, password, phone } = req.body;
